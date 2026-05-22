@@ -14,7 +14,7 @@ app.use(express.static("public"));
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017";
 const DB_NAME         = "zone_dashboard";
 const COLLECTION_NAME = "zone_dashboard";
-
+console.log("MONGO_URI is:", process.env.MONGO_URI ? "SET" : "NOT SET");
 let tasksCollection;
 
 async function connectDB() {
