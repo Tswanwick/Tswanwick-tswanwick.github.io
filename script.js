@@ -9,7 +9,7 @@ taskInput.addEventListener("keydown", (e) => {
 
 // Load tasks on page load
 async function loadTasks() {
-  const res   = await fetch("http://localhost:3000/tasks");
+  const res = await fetch("/tasks");
   const tasks = await res.json();
   taskList.innerHTML = "";
   tasks.forEach(renderTask);
