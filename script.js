@@ -9,25 +9,22 @@ taskInput.addEventListener("keydown", (e) => {
 
 // Load tasks on page load
 async function loadTasks() {
-  const res = await fetch("/tasks");
+  const res   = await fetch("/tasks");
   const tasks = await res.json();
   taskList.innerHTML = "";
   tasks.forEach(renderTask);
 }
-
 loadTasks();
 
 // Add task via server
 async function addTask() {
   const text = taskInput.value.trim();
   if (!text) return;
-
-  const res  = await fetch("http://localhost:3000/tasks", {
+  const res  = await fetch("/tasks", {          // ✅ fixed
     method:  "POST",
     headers: { "Content-Type": "application/json" },
     body:    JSON.stringify({ text }),
   });
-
   const task = await res.json();
   renderTask(task);
   taskInput.value = "";
@@ -37,18 +34,14 @@ async function addTask() {
 function renderTask(task) {
   const li = document.createElement("li");
   li.textContent = task.text;
-  // Store the MongoDB id on the element for easy access
   li.dataset.id = task.id;
-
   if (task.completed) li.classList.add("completed");
-
   li.addEventListener("click", async () => {
-    const res     = await fetch(`http://localhost:3000/tasks/${task.id}`, {
+    const res     = await fetch(`/tasks/${task.id}`, {   // ✅ fixed
       method: "PATCH",
     });
     const updated = await res.json();
     li.classList.toggle("completed", updated.completed);
   });
-
   taskList.appendChild(li);
 }
